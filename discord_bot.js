@@ -26,7 +26,11 @@ try {
 }
 
 // Load custom permissions
-var dangerousCommands = ["eval","pullanddeploy","setUsername"];
+var dangerousCommands = ["eval","pullanddeploy","setUsername", 
+						"create", "voice", "delete", "servers", "topic",
+						"myid", "perm", "kick","votekick",
+						"setUsername", "log"
+	];
 var Permissions = {};
 try{
 	Permissions = require("./permissions.json");
@@ -76,7 +80,7 @@ try{
 	}
 }
 if(!Config.hasOwnProperty("commandPrefix")){
-	Config.commandPrefix = '!';
+	Config.commandPrefix = '/';
 }
 
 var messagebox;
@@ -188,7 +192,7 @@ var commands = {
 		}
 	}
 };
-
+/*
 if(AuthDetails.hasOwnProperty("client_id")){
 	commands["invite"] = {
 		description: "generates an invite link you can use to invite the bot to your server",
@@ -197,7 +201,7 @@ if(AuthDetails.hasOwnProperty("client_id")){
 		}
 	}
 }
-
+*/
 
 try{
 	messagebox = require("./messagebox.json");
