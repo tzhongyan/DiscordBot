@@ -2,9 +2,11 @@ exports.commands = [
     "talk"
 ]
 
+var AuthDetails = require("../../auth.json");
+
 var cleverbot = require("cleverbot-node");
 talkbot = new cleverbot;
-talkbot.configure({"botapi":"API_GOES_HERE"});
+talkbot.configure({"botapi":AuthDetails.cleverbot_api});
 
 exports.talk = {
     usage: "<message>",

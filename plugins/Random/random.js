@@ -32,19 +32,6 @@ exports.math_fact = {
         }
     },
 
-    exports.joke = {
-        description: "Gives a Random Joke",
-        process: function(bot, msg, suffix) {
-            require("request")("http://tambal.azurewebsites.net/joke/random",
-                function(err, res, body) {
-                    var data = JSON.parse(body);
-                    if (data && data.joke) {
-                        msg.channel.sendMessage(data.joke)
-                    }
-                });
-        }
-    },
-
     exports.date_fact = {
         description: "Gives a Random Date Fact",
         process: function(bot, msg, suffix) {
