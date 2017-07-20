@@ -1,3 +1,4 @@
+
 exports.commands = [
 	"meme"
 ]
@@ -36,9 +37,13 @@ exports.meme = {
 		//msg.channel.sendMessage(tags);
 		var Imgflipper = require("imgflipper");
 		var imgflipper = new Imgflipper(AuthDetails.imgflip_username, AuthDetails.imgflip_password);
-		imgflipper.generateMeme(meme[memetype], tags[1]?tags[1]:"", tags[3]?tags[3]:"", function(err, image){
+		imgflipper.generateMeme(meme[memetype], tags[1]?tags[1]:" ", tags[3]?tags[3]:" ", function(err, image){
 			//console.log(arguments);
-			msg.channel.sendMessage(image);
+			if (err){
+				var m = "Unable to generate meme. Usage: `/meme [meme type] \"[upper text]\" \"[lower text]\"`\nFor available meme types, run `/help meme`";
+				msg.channel.send(m);
+			} else
+				msg.channel.send(image);
 		});
 	}
 }
