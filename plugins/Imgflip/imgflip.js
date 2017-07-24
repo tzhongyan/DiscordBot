@@ -34,7 +34,7 @@ exports.meme = {
 	process: function(bot,msg,suffix) {
 		var tags = msg.content.split('"');
 		var memetype = tags[0].split(" ")[1];
-		//msg.channel.sendMessage(tags);
+		//msg.channel.send(tags);
 		var Imgflipper = require("imgflipper");
 		var imgflipper = new Imgflipper(AuthDetails.imgflip_username, AuthDetails.imgflip_password);
 		imgflipper.generateMeme(meme[memetype], tags[1]?tags[1]:" ", tags[3]?tags[3]:" ", function(err, image){

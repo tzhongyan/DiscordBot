@@ -15,13 +15,13 @@ exports.twitch = {
 		function(err,res,body){
 			var stream = JSON.parse(body);
 			if(stream.stream){
-				msg.channel.sendMessage( suffix
+				msg.channel.send( suffix
 					+" is online, playing "
 					+stream.stream.game
 					+"\n"+stream.stream.channel.status
 					+"\n"+stream.stream.preview.large)
 			}else{
-				msg.channel.sendMessage( suffix+" is offline")
+				msg.channel.send( suffix+" is offline")
 			}
 		});
 	}
@@ -35,11 +35,11 @@ exports.beam = {
 		function(err,res,body){
 			var data = JSON.parse(body);
 			if(data && data.online){
-				msg.channel.sendMessage( suffix
+				msg.channel.send( suffix
 					+" is online"
 					+"\n"+data.thumbnail.url)
 			}else{
-				msg.channel.sendMessage( suffix+" is offline")
+				msg.channel.send( suffix+" is offline")
 			}
 		});
 	}
@@ -53,7 +53,7 @@ exports.chuckNorris = {
 		function(err, res, body) {
 			var data = JSON.parse(body);
 			if (data && data.value && data.value.joke) {
-			msg.channel.sendMessage(data.value.joke)
+			msg.channel.send(data.value.joke)
 			}
 		});
 	}
@@ -64,9 +64,9 @@ exports.watchtogether = {
 	description: "Generate a watch2gether room with your video to watch with your friends!",
 	process: function(bot,msg,suffix){
 		var watch2getherUrl = "https://www.watch2gether.com/go#";
-		msg.channel.sendMessage(
+		msg.channel.send(
 			"watch2gether link").then(function(){
-				msg.channel.sendMessage(watch2getherUrl + suffix)
+				msg.channel.send(watch2getherUrl + suffix)
 		})
 	}
 }

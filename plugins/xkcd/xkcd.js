@@ -49,6 +49,6 @@ exports.highnoon = {
 		require("request")({
 			uri:"http://imgs.xkcd.com/comics/now.png",
 			followAllRedirects:true
-		},(err, resp, body) => msg.channel.sendMessage(resp.request.uri.href))
+		},(err, resp, body) => msg.channel.send(resp.request.uri.href))
 	}
 }
