@@ -15,7 +15,7 @@ exports.urban = {
 								if (json.example) {
 										message = message + "\n\n__Example__:\n" + json.example;
 								}
-						    msg.channel.send( message);
+						    msg.channel.send(message, {split: true});
 							} else {
 								msg.channel.send( "No matches found");
 							}

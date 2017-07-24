@@ -1,5 +1,4 @@
 exports.commands = [
-	"pullanddeploy",
 	"myid",
 	"userid"
 ]
