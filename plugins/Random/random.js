@@ -1,7 +1,6 @@
 exports.commands = [
     "date_fact",
     "year_fact",
-    "joke",
     "math_fact"
 ]
 
