@@ -7,6 +7,7 @@ exports.aesthetic = {
     description: "Makes your text ａｅｓｔｈｅｔｉｃ",
     process: (bot, msg, text) => {
         var aesthetics = {
+            "\n": "　",
             " ": "　",
             "`": "`",
             "1": "１",
@@ -104,6 +105,9 @@ exports.aesthetic = {
             "?": "？"
         };
 
+        text = text || "";
+        text = text.replace(/\n|\t/g, ' ');
+
         var output = "";
         for (var i = 0; i<text.length; i++){
             if (aesthetics[text[i]])
@@ -114,6 +118,7 @@ exports.aesthetic = {
             }
         }
 
+        output = output? output : "ａｅｓｔｈｅｔｉｃ：　ｎｏ　ｔｅｘｔ　ｐｒｏｖｉｄｅｄ";
         msg.channel.send(output);
     }
 };
