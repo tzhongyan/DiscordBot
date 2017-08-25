@@ -294,7 +294,7 @@ function executeQueue(client, msg, queue) {
 			// Leave the voice channel.
 			const voiceConnection = client.voiceConnections.get(msg.guild.id);
 			if (voiceConnection != null) {
-				voiceConnection.player.dispatcher.end();
+				// voiceConnection.player.dispatcher.end();
 				voiceConnection.channel.leave();
 				return;
 			}
