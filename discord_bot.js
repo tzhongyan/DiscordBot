@@ -1,4 +1,5 @@
 var fs = require('fs');
+const express = require('express');
 
 process.on('unhandledRejection', (reason) => {
   console.error(reason);
@@ -379,8 +380,21 @@ exports.commandCount = function(){
     return Object.keys(commands).length;
 }
 if(process.env.bot_token){
-    console.log("logging in with token");
+    console.log("logging in with token: " +process.env.bot_token);
     bot.login(process.env.bot_token);
 } else {
     console.log("Logging in with user credentials is no longer supported!\nYou can use token based log in with a user account, see\nhttps://discord.js.org/#/docs/main/master/general/updating");
 }
+
+// run express on foreground
+let app = express();
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(request, response) {
+  response.send('Hello World!');
+})
+
+app.listen(app.get('port'), function() {
+  console.log("Node app is running at localhost:" + app.get('port'));
+})

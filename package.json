@@ -14,6 +14,7 @@
     "cleverbot-node": "^0.3.11",
     "d20": "^1.4.1",
     "discord.js": "^11.2.1",
+    "express": "^4.16.2",
     "feedparser": "^2.2.2",
     "html-to-text": "^3.3.0",
     "imgflipper": "^1.0.1",
