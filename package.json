@@ -31,5 +31,8 @@
     "wikijs": "^0.1.4",
     "youtube-dl": "^1.12.2"
   },
+  "scripts": {
+    "start": "node discord_bot.js"
+  },
   "main": "discord_bot.js"
 }

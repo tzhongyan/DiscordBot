@@ -18,12 +18,12 @@ console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord
 
 
 // Get authentication data
-try {
-    var AuthDetails = require("./auth.json");
-} catch (e){
-    console.log("Please create an auth.json like auth.json.example with a bot token or an email and password.\n"+e.stack);
-    process.exit();
-}
+// try {
+//     var AuthDetails = require("./auth.json");
+// } catch (e){
+//     console.log("Please create an auth.json like auth.json.example with a bot token or an email and password.\n"+e.stack);
+//     process.exit();
+// }
 
 // Load custom permissions
 var dangerousCommands = ["eval","pullanddeploy","setUsername", 
@@ -378,9 +378,9 @@ exports.addCommand = function(commandName, commandObject){
 exports.commandCount = function(){
     return Object.keys(commands).length;
 }
-if(AuthDetails.bot_token){
+if(process.env.bot_token){
     console.log("logging in with token");
-    bot.login(AuthDetails.bot_token);
+    bot.login(process.env.bot_token);
 } else {
     console.log("Logging in with user credentials is no longer supported!\nYou can use token based log in with a user account, see\nhttps://discord.js.org/#/docs/main/master/general/updating");
 }
