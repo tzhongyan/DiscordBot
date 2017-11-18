@@ -1,6 +1,6 @@
 {
-  "name": "DiscordBot",
-  "version": "0.1.1",
+  "name": "discord-bot",
+  "version": "0.1.2",
   "description": "Bot for Discord app",
   "readme": "README.md",
   "maintainers": [],
@@ -33,7 +33,7 @@
     "youtube-dl": "^1.12.2"
   },
   "scripts": {
-    "start": "node discord_bot.js"
+    "start": "node index.js"
   },
-  "main": "discord_bot.js"
+  "main": "index.js"
 }
