@@ -41,9 +41,11 @@ This repositary has a `Procfile` for running on Heroku, and the offer PAAS for f
 1. Create new heroku app `heroku create`
 2. Push your environment file: `heroku config:push`
 3. Push your git files: `git push heroku master`
-4. Give it some time to build, and run your application by `heroku ps:bot scale=1`.
+4. Give it some time to build, and run your application by `heroku ps:scale bot=1`.
 
-## Running on local machine
+There might be another part of application running on web, it will timeout after some time, or you can stop it by `heroku ps:scale web=0`
+
+## Running on local machine 
 To start the bot just run `npm start`.
 
 # Updates
@@ -52,7 +54,7 @@ issues with this, you can try deleting your node_modules folder and then running
 `yarn install` again. Please see [Installation](#Installation).
 
 # Known Problems
-- Music wouldn't play
+- Music player is bugged, will likely to cause crashing of the bot.
 
 # Help
 Please check github [issues page](https://github.com/chalda/DiscordBot/issues) on this project. We get a lot of the same questions, its very likely yours has already been answered. And yes we need to roll those into an official FAQ.
