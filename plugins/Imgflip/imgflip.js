@@ -3,7 +3,10 @@ exports.commands = [
 	"meme"
 ]
 
-var AuthDetails = require("../../auth.json");
+var AuthDetails = {
+	"imgflip_username": process.env.imgflip_username,
+	"imgflip_password": process.env.imgflip_password
+};
 
 //https://api.imgflip.com/popular_meme_ids
 var meme = {

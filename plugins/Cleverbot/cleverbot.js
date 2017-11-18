@@ -2,7 +2,9 @@ exports.commands = [
     "talk"
 ]
 
-var AuthDetails = require("../../auth.json");
+const AuthDetails = {
+    "cleverbot_api": process.env.cleverbot_api
+};
 
 var cleverbot = require("cleverbot-node");
 talkbot = new cleverbot;

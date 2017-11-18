@@ -15,16 +15,6 @@ try {
 }
 console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
-
-
-// Get authentication data
-// try {
-//     var AuthDetails = require("./auth.json");
-// } catch (e){
-//     console.log("Please create an auth.json like auth.json.example with a bot token or an email and password.\n"+e.stack);
-//     process.exit();
-// }
-
 // Load custom permissions
 var dangerousCommands = ["eval","pullanddeploy","setUsername", 
                         // channels
@@ -197,16 +187,7 @@ var commands = {
         }
     }
 };
-/*
-if(AuthDetails.hasOwnProperty("client_id")){
-    commands["invite"] = {
-        description: "generates an invite link you can use to invite the bot to your server",
-        process: function(bot,msg,suffix){
-            msg.channel.send("invite link: https://discordapp.com/oauth2/authorize?&client_id=" + AuthDetails.client_id + "&scope=bot&permissions=470019135");
-        }
-    }
-}
-*/
+
 
 try{
     messagebox = require("./messagebox.json");
@@ -224,7 +205,7 @@ bot.on("ready", function () {
     console.log("Logged in! Serving in " + bot.guilds.array().length + " servers");
     require("./plugins.js").init();
     console.log("type "+Config.commandPrefix+"help in Discord for a commands list.");
-    bot.user.setGame(Config.commandPrefix+"help | " + bot.guilds.array().length +" Servers"); 
+    bot.user.setGame("ayyy!"); 
 });
 
 bot.on("disconnected", function () {
