@@ -36,7 +36,7 @@ Make sure you also have your google server API key, which goes in the "youtube_a
 
 # Running
 ## Deploy on Heroku
-This repositary has a `Procfile` for running on Heroku, and the offer PAAS for fee each month (･∀･)
+This repositary has a `Procfile` for running on Heroku, and it offers PAAS for free each month (･∀･)
 
 1. Create new heroku app `heroku create`
 2. Push your environment file: `heroku config:push`
