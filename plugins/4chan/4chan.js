@@ -1,8 +1,8 @@
-var rp = require("request-promise");
-var htmlToText = require("html-to-text");
+const rp = require('request-promise');
+const htmlToText = require('html-to-text');
 
 exports.commands = [
-    "4chan"
+    '4chan',
 ];
 
 exports['4chan'] = {
@@ -10,61 +10,69 @@ exports['4chan'] = {
     description: 'looks up a thread on 4chan',
     process: function(bot, msg, suffix) {
         // variable to hold matches
-        var matches = [];
+        let matches = [];
         // get board to search
-        var board = suffix.split(' ')[0];
+        let board = suffix.split(' ')[0];
         // get search string
-        var searchString = suffix.slice(board.length + 1);
-        var searchRegex = new RegExp(searchString, 'i');
+        let searchString = suffix.slice(board.length + 1);
+        let searchRegex = new RegExp(searchString, 'i');
         // pull the catalog of the board in question
-        var restString = 'https://a.4cdn.org/' + board + '/catalog.json';
-        var catalog;
+        let restString = 'https://a.4cdn.org/' + board + '/catalog.json';
+        let catalog;
         rp(restString)
-        .then(function(response) {
-            catalog = JSON.parse(response);
-            // concatenate threads into one array
-            var threads = [];
-            for(var i = 0; i < catalog.length; ++i) {
-                threads = threads.concat(catalog[i]['threads']);
-            }
-            // search thread subjects first
-            for(var i = 0; i < threads.length; ++i) {
-                if((threads[i]['sub'] != null) && (threads[i]['sub'].match(searchRegex))) {
-                    matches.push(threads[i]);
+            .then(function(response) {
+                catalog = JSON.parse(response);
+                // concatenate threads into one array
+                let threads = [];
+                for (let i = 0; i < catalog.length; ++i) {
+                    threads = threads.concat(catalog[i]['threads']);
                 }
-            }
-            // did any of the subjects match the search string?
-            if(matches.length > 0) {
-                var filepath = 'https://i.4cdn.org/' + board + '/' + matches[0]['tim'] + matches[0]['ext'];
-                var name = matches[0]['name'];
-                var subject = matches[0]['sub'];
-                var comment = (matches[0]['com'] === null) ? '' : matches[0]['com'];
-                var link = 'https://boards.4chan.org/' + board + '/thread/' + matches[0]['no'];
-                var finalMessage = 'Image: ' + filepath + '\nName: ' + name + '\nSubject: ' + subject + '\nComment:\n' + htmlToText.fromString(comment) + '\nLink: ' + link;
-                msg.channel.send(finalMessage, {split: true});
-            } else {
-                // search thread bodies now
-                for(var i = 0; i < threads.length; ++i) {
-                    if((threads[i]['com'] != null) && (threads[i]['com'].match(searchRegex))) {
+                // search thread subjects first
+                for (let i = 0; i < threads.length; ++i) {
+                    if ((threads[i]['sub'] != null) && (threads[i]['sub'].match(searchRegex))) {
                         matches.push(threads[i]);
                     }
                 }
-                // did any of the comments match the search string?
+                // did any of the subjects match the search string?
                 if (matches.length > 0) {
-                    var filepath = 'https://i.4cdn.org/' + board + '/' + matches[0]['tim'] + matches[0]['ext'];
-                    var name = matches[0]['name'];
-                    var subject = (matches[0]['sub'] === null) ? '' : matches[0]['sub'];
-                    var comment = matches[0]['com'];
-                    var link = 'https://boards.4chan.org/' + board + '/thread/' + matches[0]['no'];
-                    var finalMessage = 'Image: ' + filepath + '\nName: ' + name + '\nSubject: ' + subject + '\nComment:\n' + htmlToText.fromString(comment) + '\nLink: ' + link;
+                    let filepath = 'https://i.4cdn.org/' + board + '/' + matches[0]['tim'] + matches[0]['ext'];
+                    let name = matches[0]['name'];
+                    let subject = matches[0]['sub'];
+                    let comment = (matches[0]['com'] === null) ? '' : matches[0]['com'];
+                    let link = 'https://boards.4chan.org/' + board + '/thread/' + matches[0]['no'];
+                    let finalMessage = 'Image: ' + filepath
+                        + '\nName: ' + name
+                        + '\nSubject: ' + subject
+                        + '\nComment:\n' + htmlToText.fromString(comment)
+                        + '\nLink: ' + link;
                     msg.channel.send(finalMessage, {split: true});
                 } else {
-                    msg.channel.send('4chan: No matches found.');
+                // search thread bodies now
+                    for (let i = 0; i < threads.length; ++i) {
+                        if ((threads[i]['com'] != null) && (threads[i]['com'].match(searchRegex))) {
+                            matches.push(threads[i]);
+                        }
+                    }
+                    // did any of the comments match the search string?
+                    if (matches.length > 0) {
+                        let filepath = 'https://i.4cdn.org/' + board + '/' + matches[0]['tim'] + matches[0]['ext'];
+                        let name = matches[0]['name'];
+                        let subject = (matches[0]['sub'] === null) ? '' : matches[0]['sub'];
+                        let comment = matches[0]['com'];
+                        let link = 'https://boards.4chan.org/' + board + '/thread/' + matches[0]['no'];
+                        let finalMessage = 'Image: ' + filepath
+                            + '\nName: ' + name
+                            + '\nSubject: ' + subject
+                            + '\nComment:\n' + htmlToText.fromString(comment)
+                            + '\nLink: ' + link;
+                        msg.channel.send(finalMessage, {split: true});
+                    } else {
+                        msg.channel.send('4chan: No matches found.');
+                    }
                 }
-            }
-        })
-        .catch(function(error) {
-            msg.channel.send("4CHAN ERROR: " + error);
-        });
-    }
-}
+            })
+            .catch(function(error) {
+                msg.channel.send('4CHAN ERROR: ' + error);
+            });
+    },
+};

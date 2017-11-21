@@ -1,95 +1,113 @@
+const fs = require('fs');
+const path = require('path');
 
-var fs = require('fs'),
-    path = require('path');
+/**
+ * Getting directory
+ * @param {string} srcpath
+ * @return {string} directory of src
+ */
 function getDirectories(srcpath) {
     return fs.readdirSync(srcpath).filter(function(file) {
         return fs.statSync(path.join(srcpath, file)).isDirectory();
     });
 }
 
-var plugin_folders;
-var plugin_directory;
-var exec_dir;
-try { //try loading plugins from a non standalone install first
-    plugin_directory = "./plugins/";
-    plugin_folders = getDirectories(plugin_directory);
-} catch(e){//load paths for an Electrify install
-    exec_dir = path.dirname(process.execPath) + "/resources/default_app/"; //need this to change node prefix for npm installs
-    plugin_directory = path.dirname(process.execPath) + "/resources/default_app/plugins/";
-    plugin_folders = getDirectories(plugin_directory);
+let pluginFolders;
+let pluginDirectory;
+let execDir;
+try { // try loading plugins from a non standalone install first
+    pluginDirectory = './plugins/';
+    pluginFolders = getDirectories(pluginDirectory);
+} catch (e) {// load paths for an Electrify install
+    // need this to change node prefix for npm installs
+    execDir = path.dirname(process.execPath) + '/resources/default_app/';
+    pluginDirectory = path.dirname(process.execPath) + '/resources/default_app/plugins/';
+    pluginFolders = getDirectories(pluginDirectory);
 }
 
-exports.init = function(){
-    preload_plugins();
+exports.init = function() {
+    preloadPlugins();
 };
 
-function createNpmDependenciesArray (packageFilePath) {
-    var p = require(packageFilePath);
+/**
+ * Creating dependencies array
+ * @param {string} packageFilePath
+ * @return {list} dependency array
+ */
+function createNpmDependenciesArray(packageFilePath) {
+    let p = require(packageFilePath);
     if (!p.dependencies) return [];
-    var deps = [];
-    for (var mod in p.dependencies) {
-        deps.push(mod + "@" + p.dependencies[mod]);
+    let deps = [];
+    // for (let mod in p.dependencies) {
+    for (let i=0; i<p.dependencies.length; i++) {
+        deps.push(p.dependencies[i] + '@' + p.dependencies[p.dependencies[i]]);
     }
-
     return deps;
 }
 
-function preload_plugins(){
-    var deps = [];
-    var npm = require("npm");
-    for (var i = 0; i < plugin_folders.length; i++) {
-        try{
-            require(plugin_directory + plugin_folders[i]);
-        } catch(e) {
-            deps = deps.concat(createNpmDependenciesArray(plugin_directory + plugin_folders[i] + "/package.json"));
+/**
+ * Preloading plugins
+ */
+function preloadPlugins() {
+    let deps = [];
+    let npm = require('npm');
+    for (let i = 0; i < pluginFolders.length; i++) {
+        try {
+            require(pluginDirectory + pluginFolders[i]);
+        } catch (e) {
+            deps = deps.concat(
+                createNpmDependenciesArray(pluginDirectory + pluginFolders[i] + '/package.json')
+            );
         }
     }
-    if(deps.length > 0) {
+    if (deps.length > 0) {
         npm.load({
-            loaded: false
-        }, function (err) {
+            loaded: false,
+        }, function(err) {
             // catch errors
-            if (plugin_directory != "./plugins/"){ //install plugin modules for Electrify builds
-                npm.prefix = exec_dir;
+            if (pluginDirectory != './plugins/') { // install plugin modules for Electrify builds
+                npm.prefix = execDir;
                 console.log(npm.prefix);
             }
-            npm.commands.install(deps, function (er, data) {
-                if(er){
+            npm.commands.install(deps, function(er, data) {
+                if (er) {
                     console.log(er);
                 }
-                console.log("Plugin preload complete");
-                load_plugins()
+                console.log('Plugin preload complete');
+                loadPlugins();
             });
 
             if (err) {
-                console.log("preload_plugins: " + err);
+                console.log('preloadPlugins: ' + err);
             }
         });
     } else {
-        load_plugins()
+        loadPlugins();
     }
 }
 
-function load_plugins(){
-    var dbot = require("./discord_bot.js");
-    var commandCount = 0;
-    for (var i = 0; i < plugin_folders.length; i++) {
-        var plugin;
-        try{
-            plugin = require(plugin_directory + plugin_folders[i])
-        } catch (err){
-            console.log("Improper setup of the '" + plugin_folders[i] +"' plugin. : " + err);
+/**
+ * Loads all plugin
+ */
+function loadPlugins() {
+    let dbot = require('./discord_bot.js');
+
+    for (let i = 0; i < pluginFolders.length; i++) {
+        let plugin;
+        try {
+            plugin = require(pluginDirectory + pluginFolders[i]);
+        } catch (err) {
+            console.log('Improper setup of the \'' + pluginFolders[i] +'\' plugin. : ' + err);
         }
-        if (plugin){
-            if("commands" in plugin){
-                for (var j = 0; j < plugin.commands.length; j++) {
-                    if (plugin.commands[j] in plugin){
-                        dbot.addCommand(plugin.commands[j], plugin[plugin.commands[j]])
-                        commandCount++;
+        if (plugin) {
+            if ('commands' in plugin) {
+                for (let j = 0; j < plugin.commands.length; j++) {
+                    if (plugin.commands[j] in plugin) {
+                        dbot.addCommand(plugin.commands[j], plugin[plugin.commands[j]]);
                     }
                 }
             }
         }
     }
-    console.log("Loaded " + dbot.commandCount() + " chat commands")
+    console.log('Loaded ' + dbot.commandCount() + ' chat commands');
 }

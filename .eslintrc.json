@@ -1,0 +1,38 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": ["eslint:recommended", "google"],
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-invalid-this": 1,
+        "no-console": 0,
+        "max-len" : [
+            2,
+            {
+                "code": 100,
+                "tabWidth": 4, 
+                "ignoreUrls": true
+            }
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}
