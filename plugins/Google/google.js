@@ -12,7 +12,7 @@ exports.commands = [
 
 exports.image = {
     usage: '<search query>',
-    description: 'gets the top matching image from google',
+    description: 'gets the top 10 matching image from google',
     process: function(bot, msg, args) {
         if (!AuthDetails || !AuthDetails.youtube_api_key || !AuthDetails.google_custom_search) {
             msg.channel.send(
@@ -20,9 +20,8 @@ exports.image = {
             );
             return;
         }
-        // gets us a random result in first 5 pages
-        let page = 1; // we request 10 items
-        request('https://www.googleapis.com/customsearch/v1?key=' + AuthDetails.youtube_api_key + '&cx=' + AuthDetails.google_custom_search + '&q=' + (args.replace(/\s/g, '+')) + '&searchType=image&alt=json&num=10&start='+page, function(err, res, body) {
+
+        request('https://www.googleapis.com/customsearch/v1?key=' + AuthDetails.youtube_api_key + '&cx=' + AuthDetails.google_custom_search + '&q=' + encodeURI(args) + '&safe=off&searchType=image&alt=json&num=10&start=1', function(err, res, body) {
             let data;
             try {
                 data = JSON.parse(body);
@@ -61,7 +60,7 @@ exports.rimage = {
         }
         // gets us a random result in first 5 pages
         let page = 1 + Math.floor(Math.random() * 5) * 10; // we request 10 items
-        request('https://www.googleapis.com/customsearch/v1?key=' + AuthDetails.youtube_api_key + '&cx=' + AuthDetails.google_custom_search + '&q=' + (args.replace(/\s/g, '+')) + '&searchType=image&alt=json&num=10&start='+page, function(err, res, body) {
+        request('https://www.googleapis.com/customsearch/v1?key=' + AuthDetails.youtube_api_key + '&cx=' + AuthDetails.google_custom_search + '&q=' + encodeURI(args) + '&safe=off&searchType=image&alt=json&num=10&start='+page, function(err, res, body) {
             let data;
             try {
                 data = JSON.parse(body);
@@ -90,7 +89,7 @@ exports.ggif = {
     process: function(bot, msg, args) {
         // gets us a random result in first 5 pages
         let page = 1 + Math.floor(Math.random() * 5) * 10; // we request 10 items
-        request('https://www.googleapis.com/customsearch/v1?key=' + AuthDetails.youtube_api_key + '&cx=' + AuthDetails.google_custom_search + '&q=' + (args.replace(/\s/g, '+')) + '&searchType=image&alt=json&num=10&start='+page+'&fileType=gif', function(err, res, body) {
+        request('https://www.googleapis.com/customsearch/v1?key=' + AuthDetails.youtube_api_key + '&cx=' + AuthDetails.google_custom_search + '&q=' + encodeURI(args) + '&safe=off&searchType=image&alt=json&num=10&start='+page+'&fileType=gif', function(err, res, body) {
             let data;
             try {
                 data = JSON.parse(body);
